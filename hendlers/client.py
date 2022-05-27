@@ -3,6 +3,7 @@ from config import bot, dp
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from keyboards import client_kb
 from database.bot_db import sql_command_random
+from parser import news
 
 # @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
@@ -37,8 +38,20 @@ async def quiz_1(message: types.Message):
 async def show_random_user(message: types.Message):
     await sql_command_random(message)
 
+
+async def parser_news(message: types.Message):
+    data = news.parser()
+    for item in data:
+        await bot.send_message(message.chat.id,
+                               f"{item['time']}\n\n"
+                               f"{item['title']}\n"
+                               f"{item['desc']}\n\n"
+                               f"{item['link']}")
+
+
 def register_handler_client(dp: Dispatcher):
     dp.register_message_handler(start, commands=['start'])
     dp.register_message_handler(help, commands=['help'])
     dp.register_message_handler(quiz_1, commands=['quiz'])
     dp.register_message_handler(show_random_user, commands=['random'])
+    dp.register_message_handler(parser_news, commands=['news'])
