@@ -1,6 +1,6 @@
 from aiogram.utils import executor
 from config import dp
-from hendlers import admin, client, callback, extra, fsm_anketa, notification
+from hendlers import admin, client, callback, extra, fsm_anketa, notification, inline
 import logging
 from database import bot_db
 import asyncio
@@ -15,6 +15,7 @@ client.register_handler_client(dp)
 admin.register_handlers_admin(dp)
 fsm_anketa.register_hendler_fsmanketa(dp)
 callback.register_handler_callback(dp)
+inline.register_handler_inline(dp)
 notification.register_handler_notification(dp)
 extra.register_hendler_extra(dp)
 
